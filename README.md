@@ -17,3 +17,5 @@ python main.py
 - Integrate full async/await support via `httpx`.
 - Develop automated test suites for continuous integration (CI).
 - Add support for advanced document parsing.
+
+- Fixed minor logging issues in the main workflow.
