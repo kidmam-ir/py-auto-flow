@@ -9,8 +9,23 @@ class AutoFlow:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
+    def check_health(self):
+        """Perform pre-flight health check on the targeted endpoint."""
+        print(f"[INFO] Running system health check for upstream endpoint...")
+        try:
+            response = requests.head(self.target_url, timeout=5)
+            print(f"[SUCCESS] Upstream connection verified. Status: {response.status_code}")
+            return True
+        except Exception as e:
+            print(f"[WARNING] Health check failed or timeout reached: {str(e)}")
+            return False
+
     def fetch_data(self):
         print(f"[INFO] Initializing worker workflow for: {self.target_url}")
+        if not self.check_health():
+            print("[ABORT] Canceling fetch operation due to unstable environment.")
+            return False
+            
         try:
             response = requests.get(self.target_url, timeout=10)
             if response.status_code == 200:
@@ -26,6 +41,6 @@ class AutoFlow:
         return False
 
 if __name__ == "__main__":
-    # Test workflow locally
+    # Test workflow locally with health checks
     worker = AutoFlow("https://github.com")
     worker.fetch_data()
