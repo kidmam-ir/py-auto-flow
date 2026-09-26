@@ -19,3 +19,5 @@ python main.py
 - Add support for advanced document parsing.
 
 - Fixed minor logging issues in the main workflow.
+
+- **Pre-flight Health Checks:** Automatically verifies upstream connections before firing asynchronous network queues.
